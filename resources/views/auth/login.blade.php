@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -6,6 +6,17 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
+                @if (session()->has('wait')) 
+                    <div class="alert alert-danger">
+                        {{session('wait')}}
+                    </div>
+                @endif
+
+                @if (session()->has('block'))
+                    <div class="alert alert-danger">
+                        {{ session('block') }}
+                    </div>
+                @endif
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
@@ -65,4 +76,87 @@
         </div>
     </div>
 </div>
+@endsection
+ --}}
+
+ @extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Login</div>
+                    @if (session()->has('wait')) 
+                        <div class="alert alert-danger">
+                            {{session('wait')}}
+                        </div>
+                    @endif
+
+                     @if (session()->has('block'))
+                        <div class="alert alert-danger">
+                            {{ session('block') }}
+                        </div>
+                    @endif
+                    <div class="panel-body">
+                        {!! Form::open([
+                            'class' => 'form-horizontal',
+                            'role' => 'form',
+                            'method' => 'POST',
+                            'action' => 'Auth\LoginController@login',
+                        ]) !!}
+
+                            <div class="{!! Form::showErrClass('name') !!}">
+                                {!! Form::label('name', 'Name', ['class' => 'col-md-4 control-label', ]) !!}
+                                <div class="col-md-6">
+                                    {!! Form::text('name', old('name'), [
+                                        'class' => 'form-control',
+                                        'id' => 'name',
+                                        'required',
+                                        'autofocus',
+                                    ]) !!}
+                                    {!! Form::showErrField('name') !!}
+                                </div>
+                            </div>
+
+                            <div class="{!! Form::showErrClass('password') !!}">
+                                {!! Form::label('password', 'Password', ['class' => 'col-md-4 control-label', ]) !!}
+                                <div class="col-md-6">
+                                    {!! Form::password('password', [
+                                        'class' => 'form-control',
+                                        'id' => 'password',
+                                        'required',
+                                    ]) !!}
+                                    {!! Form::showErrField('password') !!}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            {!! Form::checkbox('remember') !!} Remember Me
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-offset-7">
+                                    <a class="btn btn-link" href="{{ action('Auth\ResetPasswordController@reset') }}">
+                                        Forgot Password
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    {!! Form::submit('Login', ['class' => 'btn btn-primary btn-raised']) !!}
+                                </div>
+                                
+                            </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

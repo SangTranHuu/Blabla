@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
+use Session;
 
 class LoginController extends Controller
 {
@@ -36,4 +38,19 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    // public function redirectTo()
+    // {
+    //     $url = (url()->previous());
+    //     if (Auth::user()->status == 0) {
+    //         session()->put('wait', 'Accout Watting');
+    //         return '/login';
+
+    //     }  elseif (Auth::user()->status == 2) {
+    //         session()->put('block', 'Accout blocked');
+    //         return '/login';
+    //     } else {
+    //         return '/home';
+    //     }   
+    // }
 }
